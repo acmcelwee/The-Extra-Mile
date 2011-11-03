@@ -1,0 +1,18 @@
+{{#if entries}}
+<ul>
+    {{#each entries}}
+    <li>
+        <a href="{{ url }}">
+            {{#with workout}}
+            <div>
+                <span class="activityType">{{ activity_type }}</span>&nbsp;-&nbsp;<span class="activityTitle">{{ title }}</span>
+            </div>
+            <div>
+                <span class="distance">{{ distance.value }}</span>&nbsp;<span class="units">{{ distance.units }}</span>
+            </div>
+            {{/with}}
+        </a>
+    </li>
+    {{/each}}
+</ul>
+{{/if}}

@@ -10,7 +10,6 @@
 /*global require: false, XMLHttpRequest: false, ActiveXObject: false,
   define: false, process: false, window: false */
 define('tmpl', ['lib/handlebars'], function (Handlebars) {
-console.log(Handlebars);
   var fs, getXhr,
         progIds = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0'],
         fetchText = function () {
@@ -106,7 +105,6 @@ console.log(Handlebars);
                 }
 
                 var prec = Handlebars.precompile(text);
-                console.log(prec);
                 text = "/* START_TEMPLATE */\n" + 
                        "define('tmpl!"+name+"',['tmpl','lib/handlebars'"+depStr+"], function( tmpl, Handlebars ){ \n" +
                          "var t = Handlebars.template(" + prec + ");\n" +

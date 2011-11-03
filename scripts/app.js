@@ -4,7 +4,7 @@ require.config({
     },
 });
 
-require(['lib/jquery', 'lib/underscore', 'lib/backbone', 'tmpl!templates/foo'], function($, _, Backbone, FooTmpl) {
+require(['lib/jquery', 'lib/underscore', 'lib/backbone', 'tmpl!templates/entries'], function($, _, Backbone, EntriesTmpl) {
     $(function() {
 
         function retrieveEntries() {
@@ -25,9 +25,7 @@ require(['lib/jquery', 'lib/underscore', 'lib/backbone', 'tmpl!templates/foo'], 
 
             if (response && response.entries) {
                 entries = response.entries;
-                $.each(entries, function(index, entry) {
-                    $contentDiv.append(FooTmpl(entry));
-                });
+                $contentDiv.append(EntriesTmpl(response));
             } else {
                 console.log('No entries');
             }
