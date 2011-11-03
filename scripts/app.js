@@ -1,7 +1,11 @@
-require(['lib/jquery', 'lib/backbone', 'lib/handlebars'], function($, Backbone) {
+require.config({
+    paths: {
+        tmpl: "lib/tmpl"
+    },
+});
+
+require(['lib/jquery', 'lib/underscore', 'lib/backbone', 'tmpl!templates/foo'], function($, _, Backbone, FooTmpl) {
     $(function() {
-        var entryTemplateSource = "<div><div>{{id}}</div><span>{{workout.distance.value}}</span><span>{{workout.distance.units}}</span></div>";
-        var entryTemplate = Handlebars.compile(entryTemplateSource);
 
         function retrieveEntries() {
             $.getJSON(
@@ -22,7 +26,7 @@ require(['lib/jquery', 'lib/backbone', 'lib/handlebars'], function($, Backbone) 
             if (response && response.entries) {
                 entries = response.entries;
                 $.each(entries, function(index, entry) {
-                    $contentDiv.append(entryTemplate(entry));
+                    $contentDiv.append(FooTmpl(entry));
                 });
             } else {
                 console.log('No entries');
