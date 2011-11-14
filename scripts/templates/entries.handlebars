@@ -1,0 +1,15 @@
+<div>foo</div>
+{{#if entries}}
+<ul>
+    {{#each entries}}
+    <li>
+		<div class="description>
+			<span class="activityType">{{ workout.activity_type }}</span>&nbsp;-&nbsp;<span class="activityTitle">{{ workout.title }}</span>
+		</div>
+		<div class="distance">
+			<span class="distance">{{ workout.distance.value }}</span>&nbsp;<span class="units">{{ workout.distance.units }}</span>
+		</div>
+    </li>
+    {{/each}}
+</ul>
+{{/if}}

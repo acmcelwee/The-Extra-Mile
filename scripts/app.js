@@ -1,34 +1,44 @@
-require(['lib/jquery', 'lib/backbone', 'lib/handlebars'], function($, Backbone) {
-    $(function() {
-        var entryTemplateSource = "<div><div>{{id}}</div><span>{{workout.distance.value}}</span><span>{{workout.distance.units}}</span></div>";
-        var entryTemplate = Handlebars.compile(entryTemplateSource);
+require.config({
+    paths: {
+        tmpl: "lib/tmpl"
+    },
+});
 
-        function retrieveEntries() {
-            $.getJSON(
-                'http://api.dailymile.com/people/acolemc/entries.json?callback=?',
-                {
-                    until: Math.round(new Date().getTime() / 1000),
-                },
-                function(response) {
-                    handleEntriesResponse(response);
-                }
-            );
+require(['lib/jquery', 'lib/underscore', 'lib/backbone', 'user', 'collections/workouts', 'views/workouts/list', 'tmpl!templates/User', 'tmpl!templates/entries'], function($, _, Backbone, User, Workouts, WorkoutsListView, UserTmpl, EntriesTmpl) {
+    $(function() {
+
+        var workouts = new Workouts,
+            workoutsListView = new WorkoutsListView({
+                collection : workouts
+            });
+        
+
+        function retrieveEntries(user) {
+            if (user && user.username){
+                $.getJSON(
+                    'http://api.dailymile.com/people/' + user.username + '/entries.json?callback=?',
+                    function(response) {
+                        handleEntriesResponse(response);
+                    }
+                );
+            }
         }
 
         function handleEntriesResponse(response) {
-            var entries,
-                $contentDiv = $('.content');
+            var entries;
 
             if (response && response.entries) {
-                entries = response.entries;
-                $.each(entries, function(index, entry) {
-                    $contentDiv.append(entryTemplate(entry));
-                });
+                workouts.reset();
+                workouts.add(response.entries);
             } else {
                 console.log('No entries');
             }
         }
 
-        retrieveEntries();
+        User.retrieveUserData(function(user) {
+            $('.header').html(UserTmpl(user));
+            
+            retrieveEntries(user);
+        });
     });
 });
